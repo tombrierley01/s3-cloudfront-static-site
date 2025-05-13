@@ -1,0 +1,35 @@
+name: Terraform Static Website
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v2
+      with:
+        terraform_version: 1.5.0
+
+    - name: Terraform Init
+      working-directory: terraform
+      run: terraform init
+
+    - name: Terraform Validate
+      working-directory: terraform
+      run: terraform validate
+
+    - name: Terraform Plan
+      working-directory: terraform
+      run: terraform plan -var="bucket_name=${{ secrets.S3_BUCKET_NAME }}" -var="aws_region=eu-west-2" -var="domain_name=${{ secrets.DOMAIN_NAME }}" -var="zone_id=${{ secrets.ZONE_ID }}"
+
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/main'
+      working-directory: terraform
+      run: terraform apply -auto-approve -var="bucket_name=${{ secrets.S3_BUCKET_NAME }}" -var="aws_region=eu-west-2" -var="domain_name=${{ secrets.DOMAIN_NAME }}" -var="zone_id=${{ secrets.ZONE_ID }}"
