@@ -38,8 +38,7 @@ You’ll get:
 ## 🧪 Live Demo (YouTube Tutorial)
 
 📺 Watch the full walkthrough:  
-👉 [soon to be uploaded!
-
+https://www.youtube.com/watch?v=ClikeeqqVdg&t=87s
 ---
 
 ## ⚙️ CI/CD Workflow
